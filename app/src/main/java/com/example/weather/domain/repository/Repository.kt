@@ -4,5 +4,5 @@ import com.example.weather.domain.models.BaseModel
 
 interface Repository {
 
-    suspend fun getData() : List<BaseModel>
+    suspend fun getData(key : String, q : String) : BaseModel
 }
