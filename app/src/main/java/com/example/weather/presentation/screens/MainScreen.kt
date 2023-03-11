@@ -2,8 +2,14 @@ package com.example.weather.presentation.screens
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import com.example.weather.presentation.viewmodel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+     myViewModel: MainViewModel = koinViewModel()
+) {
+    myViewModel.loadData()
+
     Text(text="hi world")
 }

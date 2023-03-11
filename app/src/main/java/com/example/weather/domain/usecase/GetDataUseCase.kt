@@ -9,8 +9,6 @@ class GetDataUseCase(
 
     suspend operator fun invoke(key: String, q: String): BaseModel {
         return repository.getData(key = key, q = q)
-//        key = "a417b27b7c0746ceab5124157232501",
-//        q = "54.99,73.37"
     }
 
 }
