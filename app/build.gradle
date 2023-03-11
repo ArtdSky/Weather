@@ -47,6 +47,12 @@ android {
 }
 
 dependencies {
+    // Koin for Android
+    def koin_version= "3.3.3"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.1"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0'
     //Retrofit
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
