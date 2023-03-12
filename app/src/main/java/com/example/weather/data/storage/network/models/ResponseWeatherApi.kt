@@ -16,8 +16,8 @@ data class ResponseWeatherApi(
 data class Current(
 	@Json(name = "temp_c")
 	val temp_c: String,
-	@Json(name = "last_updated")
-	val last_updated: String,
+	@Json(name = "last_updated_epoch")
+	val last_updated_epoch: String,
 )
 
 @JsonClass(generateAdapter = true)

@@ -1,10 +1,15 @@
 package com.example.weather.data.storage
 
+import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
+import com.example.weather.data.storage.network.models.ResponseVisualCrossing
 import com.example.weather.data.storage.network.models.ResponseWeatherApi
-import com.example.weather.domain.models.BaseModel
 
 interface Storage {
 
-    suspend fun getData(key : String, q : String): ResponseWeatherApi
+    suspend fun getWeatherApiData(latlon: String): ResponseWeatherApi
+
+    suspend fun getOpenWeathermapData(lat : String, lon : String): ResponseOpenWeathermap
+
+    suspend fun getVisualCrossingData(lat : String, lon : String): ResponseVisualCrossing
 
 }

@@ -3,12 +3,12 @@ package com.example.weather.domain.usecase
 import com.example.weather.domain.models.BaseModel
 import com.example.weather.domain.repository.Repository
 
-class GetDataUseCase(
+class GetVisualCrossingData (
     private val repository: Repository
 ) {
 
-    suspend operator fun invoke(key: String, q: String): BaseModel {
-        return repository.getData(key = key, q = q)
+    suspend operator fun invoke(lat : String, lon : String): BaseModel {
+        return repository.getVisualCrossingData(lat = lat, lon = lon)
     }
 
 }

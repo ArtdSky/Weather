@@ -9,7 +9,9 @@ import org.koin.androidx.compose.koinViewModel
 fun MainScreen(
      myViewModel: MainViewModel = koinViewModel()
 ) {
-    myViewModel.loadData()
+    myViewModel.loadWeatherApiData()
+    myViewModel.loadOpenWeatherData()
+    myViewModel.loadVisualCrossingData()
 
     Text(text="hi world")
 }

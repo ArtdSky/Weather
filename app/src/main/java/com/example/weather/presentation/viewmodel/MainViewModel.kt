@@ -3,26 +3,50 @@ package com.example.weather.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weather.data.storage.network.ApiConfig
-import com.example.weather.domain.usecase.GetDataUseCase
+import com.example.weather.domain.usecase.GetOpenWeathermapDataUseCase
+import com.example.weather.domain.usecase.GetVisualCrossingData
+import com.example.weather.domain.usecase.GetWeatherApiDataUseCase
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val getDataUseCase: GetDataUseCase
+    private val getWeatherApiDataUseCase: GetWeatherApiDataUseCase,
+    private val getOpenWeathermapDataUseCase: GetOpenWeathermapDataUseCase,
+    private val getVisualCrossingData: GetVisualCrossingData
 ) : ViewModel() {
 
 
-    fun loadData() {
+    fun loadWeatherApiData() {
         viewModelScope.launch {
-            val res = getDataUseCase(
-                key = "a417b27b7c0746ceab5124157232501",
-                q = "54.99,73.37"
+            val res = getWeatherApiDataUseCase(
+                latlon = "54.99,73.37"
             )
-            Log.d("TAG-VM", res.toString())
+            Log.d("TAG-VM", "{WeatherApi $res.toString()}")
         }
     }
 
-    fun setBaseUrl(){
-        ApiConfig.setBaseUrl("qwe")
+    fun loadOpenWeatherData(){
+        viewModelScope.launch {
+            val res = getOpenWeathermapDataUseCase(
+                lat = "54.99",
+                lon = "73.37",
+            )
+            Log.d("TAG-VM", "{OpenWeather $res.toString()}")
+
+        }
     }
+
+    fun loadVisualCrossingData(){
+        viewModelScope.launch {
+            val res = getVisualCrossingData(
+                lat = "54.99",
+                lon = "73.37",
+            )
+            Log.d("TAG-VM", "{VisualCrossing $res.toString()}")
+        }
+    }
+
+
+
+
+
 }
