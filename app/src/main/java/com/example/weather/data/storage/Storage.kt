@@ -1,5 +1,6 @@
 package com.example.weather.data.storage
 
+import com.example.weather.data.storage.local.models.WeatherEntity
 import com.example.weather.data.storage.network.models.ResponseCurrentLocation
 import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
 import com.example.weather.data.storage.network.models.ResponseVisualCrossing
@@ -14,5 +15,12 @@ interface Storage {
     suspend fun getVisualCrossingData(lat: String, lon: String): ResponseVisualCrossing
 
     suspend fun getCurrentLocation(): ResponseCurrentLocation
+
+
+    suspend fun insertWeather(weatherEntity: WeatherEntity)
+
+    suspend fun getAllWeather(): List<WeatherEntity>
+
+    suspend fun getWeather(id: Int): WeatherEntity
 
 }

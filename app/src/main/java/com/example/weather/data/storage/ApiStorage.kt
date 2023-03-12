@@ -1,17 +1,21 @@
 package com.example.weather.data.storage
 
+import com.example.weather.data.storage.local.WeatherRepository
+import com.example.weather.data.storage.local.models.WeatherEntity
 import com.example.weather.data.storage.network.ApiConfig
 import com.example.weather.data.storage.network.models.ResponseCurrentLocation
 import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
 import com.example.weather.data.storage.network.models.ResponseVisualCrossing
 import com.example.weather.data.storage.network.models.ResponseWeatherApi
 
-class ApiStorage() : Storage {
+class ApiStorage(
+    private val weatherRepository: WeatherRepository
+) : Storage {
 
     override suspend fun getWeatherApiData(latlon: String): ResponseWeatherApi {
         ApiConfig.setBaseUrl("https://api.weatherapi.com/")
         return ApiConfig.retrofitApiService.getWeatherApiData(
-            key = " a417b27b7c0746ceab5124157232501",
+            key = "a417b27b7c0746ceab5124157232501",
             q = latlon
         )
     }
@@ -39,6 +43,18 @@ class ApiStorage() : Storage {
     override suspend fun getCurrentLocation(): ResponseCurrentLocation {
         ApiConfig.setBaseUrl("https://ipwho.is/")
         return ApiConfig.retrofitApiService.getCurrentLocation()
+    }
+
+    override suspend fun insertWeather(weatherEntity: WeatherEntity) {
+        return weatherRepository.insertWeather(weatherEntity)
+    }
+
+    override suspend fun getAllWeather(): List<WeatherEntity> {
+        return weatherRepository.getAllWeather()
+    }
+
+    override suspend fun getWeather(id: Int): WeatherEntity {
+        return weatherRepository.getWeather(id)
     }
 
 

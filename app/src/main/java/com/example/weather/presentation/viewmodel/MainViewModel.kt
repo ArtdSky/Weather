@@ -3,17 +3,17 @@ package com.example.weather.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weather.domain.usecase.GetCurrentLocation
-import com.example.weather.domain.usecase.GetOpenWeathermapDataUseCase
-import com.example.weather.domain.usecase.GetVisualCrossingData
-import com.example.weather.domain.usecase.GetWeatherApiDataUseCase
+import com.example.weather.domain.usecase.*
 import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val getWeatherApiDataUseCase: GetWeatherApiDataUseCase,
     private val getOpenWeathermapDataUseCase: GetOpenWeathermapDataUseCase,
     private val getVisualCrossingData: GetVisualCrossingData,
-    private val getCurrentLocation: GetCurrentLocation
+    private val getCurrentLocation: GetCurrentLocation,
+    private val getOneWeatherFromDbUseCase: GetOneWeatherFromDbUseCase,
+    private val getAllWeatherFromDbUsecase: GetAllWeatherFromDbUsecase,
+    private val insertWeatherToDbUseCase: InsertWeatherToDbUseCase
 ) : ViewModel() {
 
 

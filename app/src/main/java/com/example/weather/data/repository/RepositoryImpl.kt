@@ -2,6 +2,7 @@ package com.example.weather.data.repository
 
 import android.util.Log
 import com.example.weather.data.storage.Storage
+import com.example.weather.data.storage.local.models.WeatherEntity
 import com.example.weather.data.storage.network.models.ResponseCurrentLocation
 import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
 import com.example.weather.data.storage.network.models.ResponseVisualCrossing
@@ -28,7 +29,7 @@ class RepositoryImpl(
     }
 
     override suspend fun getCurrentLocation(): LocationModel {
-        return mapLocationToDomain(storage.getCurrentLocation() )
+        return mapLocationToDomain(storage.getCurrentLocation())
     }
 
     private fun mapDataToDomain(data: Any): TemperatureModel {
@@ -66,11 +67,46 @@ class RepositoryImpl(
         return input.toDoubleOrNull()?.let { (it - 32) * 5 / 9 }?.let { "%.1f".format(it) } ?: ""
     }
 
-    private fun mapLocationToDomain(data : ResponseCurrentLocation) : LocationModel {
+    private fun mapLocationToDomain(data: ResponseCurrentLocation): LocationModel {
         return LocationModel(
             latitude = data.latitude,
             longitude = data.longitude
         )
     }
+
+    override suspend fun insertWeather(temperatureModel: TemperatureModel) {
+        val result = mapTemperatureModelToData(temperatureModel)
+        return storage.insertWeather(result)
+    }
+
+    override suspend fun getAllWeather(): List<TemperatureModel> {
+        val result = storage.getAllWeather().map {
+            mapWeatherEntityToDomain(it)
+        }
+        return result
+    }
+
+    override suspend fun getWeather(id: Int): TemperatureModel {
+        val result = mapWeatherEntityToDomain(storage.getWeather(id))
+        return result
+    }
+
+    private fun mapWeatherEntityToDomain(weatherEntity: WeatherEntity): TemperatureModel {
+        return TemperatureModel(
+            city = weatherEntity.city,
+            currentTemperature = weatherEntity.currentTemperature,
+            lastTimeUpdate = weatherEntity.lastTimeUpdate
+        )
+    }
+
+    private fun mapTemperatureModelToData(temperatureModel: TemperatureModel): WeatherEntity {
+        return WeatherEntity(
+            id = temperatureModel.id,
+            city = temperatureModel.city,
+            currentTemperature = temperatureModel.currentTemperature,
+            lastTimeUpdate = temperatureModel.lastTimeUpdate
+        )
+    }
+
 
 }
