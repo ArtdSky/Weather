@@ -5,13 +5,14 @@ import com.example.weather.data.storage.network.models.ResponseWeatherApi
 
 class ApiStorage() : Storage {
 
-    override suspend fun getData(key : String, q : String): ResponseWeatherApi {
-
+    override suspend fun getData(key: String, q: String): ResponseWeatherApi {
         return ApiConfig.retrofitApiService.getData(
-            key= key,
+            key = key,
             q = q
         )
-
     }
+
+    
+
 
 }
