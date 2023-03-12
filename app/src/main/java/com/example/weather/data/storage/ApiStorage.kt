@@ -1,6 +1,7 @@
 package com.example.weather.data.storage
 
 import com.example.weather.data.storage.network.ApiConfig
+import com.example.weather.data.storage.network.models.ResponseCurrentLocation
 import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
 import com.example.weather.data.storage.network.models.ResponseVisualCrossing
 import com.example.weather.data.storage.network.models.ResponseWeatherApi
@@ -33,6 +34,11 @@ class ApiStorage() : Storage {
             key = "NVB8CAXSGKZAQZTKEDDTXJPLC"
         )
 
+    }
+
+    override suspend fun getCurrentLocation(): ResponseCurrentLocation {
+        ApiConfig.setBaseUrl("https://ipwho.is/")
+        return ApiConfig.retrofitApiService.getCurrentLocation()
     }
 
 

@@ -3,6 +3,7 @@ package com.example.weather.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weather.domain.usecase.GetCurrentLocation
 import com.example.weather.domain.usecase.GetOpenWeathermapDataUseCase
 import com.example.weather.domain.usecase.GetVisualCrossingData
 import com.example.weather.domain.usecase.GetWeatherApiDataUseCase
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val getWeatherApiDataUseCase: GetWeatherApiDataUseCase,
     private val getOpenWeathermapDataUseCase: GetOpenWeathermapDataUseCase,
-    private val getVisualCrossingData: GetVisualCrossingData
+    private val getVisualCrossingData: GetVisualCrossingData,
+    private val getCurrentLocation: GetCurrentLocation
 ) : ViewModel() {
 
 
@@ -42,6 +44,13 @@ class MainViewModel(
                 lon = "73.37",
             )
             Log.d("TAG-VM", "{VisualCrossing $res.toString()}")
+        }
+    }
+
+    fun loadCurrentLocation() {
+        viewModelScope.launch {
+            val res = getCurrentLocation()
+            Log.d("TAG-VM", "{Current Location $res.toString()}")
         }
     }
 

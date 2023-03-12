@@ -1,5 +1,6 @@
 package com.example.weather.data.storage.network
 
+import com.example.weather.data.storage.network.models.ResponseCurrentLocation
 import com.example.weather.data.storage.network.models.ResponseOpenWeathermap
 import com.example.weather.data.storage.network.models.ResponseVisualCrossing
 import com.example.weather.data.storage.network.models.ResponseWeatherApi
@@ -29,6 +30,10 @@ interface ApiService {
         @Path("lon") lon: String,
         @Query("key") key: String,
     ): ResponseVisualCrossing
+
+    @GET("/")
+    suspend fun getCurrentLocation(
+    ): ResponseCurrentLocation
 
 
 }

@@ -12,6 +12,7 @@ fun MainScreen(
     myViewModel.loadWeatherApiData()
     myViewModel.loadOpenWeatherData()
     myViewModel.loadVisualCrossingData()
+    myViewModel.loadCurrentLocation()
 
     Text(text="hi world")
 }
