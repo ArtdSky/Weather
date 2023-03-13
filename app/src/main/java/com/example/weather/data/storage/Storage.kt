@@ -23,4 +23,8 @@ interface Storage {
 
     suspend fun getWeather(id: Int): WeatherEntity
 
+    suspend fun updateWeather(weather: WeatherEntity)
+
+    suspend fun clearWeatherTable()
+
 }

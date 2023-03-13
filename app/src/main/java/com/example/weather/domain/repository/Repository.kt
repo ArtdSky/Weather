@@ -1,5 +1,6 @@
 package com.example.weather.domain.repository
 
+import com.example.weather.data.storage.local.models.WeatherEntity
 import com.example.weather.domain.models.LocationModel
 import com.example.weather.domain.models.TemperatureModel
 
@@ -18,4 +19,10 @@ interface Repository {
     suspend fun getAllWeather(): List<TemperatureModel>
 
     suspend fun getWeather(id: Int): TemperatureModel
+
+    suspend fun updateWeather(weather: TemperatureModel)
+
+    suspend fun clearWeatherTable()
+
+
 }

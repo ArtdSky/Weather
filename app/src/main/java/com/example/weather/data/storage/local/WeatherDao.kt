@@ -1,9 +1,6 @@
 package com.example.weather.data.storage.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.weather.data.storage.local.models.WeatherEntity
 
 @Dao
@@ -17,4 +14,10 @@ interface WeatherDao {
 
     @Query("SELECT * FROM weather_table WHERE id = :id")
     suspend fun getWeather(id: Int): WeatherEntity
+
+    @Update
+    suspend fun updateWeather(weather: WeatherEntity)
+
+    @Query("DELETE FROM weather_table")
+    suspend fun clearWeatherTable()
 }

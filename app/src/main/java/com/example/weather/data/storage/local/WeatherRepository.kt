@@ -17,5 +17,12 @@ class WeatherRepository(
     suspend fun getWeather(id: Int): WeatherEntity {
         return weatherDao.getWeather(id)
     }
+
+    suspend fun updateWeather(weather: WeatherEntity){
+        return weatherDao.updateWeather(weather = weather)
+    }
+    suspend fun clearWeatherTable(){
+        return weatherDao.clearWeatherTable()
+    }
 }
 

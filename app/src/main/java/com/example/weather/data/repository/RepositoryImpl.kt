@@ -87,8 +87,16 @@ class RepositoryImpl(
     }
 
     override suspend fun getWeather(id: Int): TemperatureModel {
-        val result = mapWeatherEntityToDomain(storage.getWeather(id))
-        return result
+        return mapWeatherEntityToDomain(storage.getWeather(id))
+    }
+
+    override suspend fun updateWeather(weather: TemperatureModel) {
+        val result = mapTemperatureModelToData( weather)
+        storage.updateWeather(result)
+    }
+
+    override suspend fun clearWeatherTable() {
+        return storage.clearWeatherTable()
     }
 
     private fun mapWeatherEntityToDomain(weatherEntity: WeatherEntity): TemperatureModel {

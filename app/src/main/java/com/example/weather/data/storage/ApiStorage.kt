@@ -20,7 +20,7 @@ class ApiStorage(
         )
     }
 
-    override suspend fun getOpenWeathermapData(lat : String, lon : String): ResponseOpenWeathermap {
+    override suspend fun getOpenWeathermapData(lat: String, lon: String): ResponseOpenWeathermap {
         ApiConfig.setBaseUrl("https://api.openweathermap.org")
         return ApiConfig.retrofitApiService.getOpenWeathermapData(
             appid = "1a1aaae6a5881fb09024b0f1e1621e6e",
@@ -55,6 +55,14 @@ class ApiStorage(
 
     override suspend fun getWeather(id: Int): WeatherEntity {
         return weatherRepository.getWeather(id)
+    }
+
+    override suspend fun updateWeather(weather: WeatherEntity) {
+        return weatherRepository.updateWeather(weather = weather)
+    }
+
+    override suspend fun clearWeatherTable() {
+        return weatherRepository.clearWeatherTable()
     }
 
 

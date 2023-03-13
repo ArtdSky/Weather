@@ -46,7 +46,9 @@ val DependencyInjection = module {
     factory { GetOneWeatherFromDbUseCase(get()) }
 
     factory { InsertWeatherToDbUseCase(get()) }
+    factory { UpdateWeatherInDbUseCase(get()) }
+    factory { ClearDbUseCase(get()) }
 
 
-    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }
