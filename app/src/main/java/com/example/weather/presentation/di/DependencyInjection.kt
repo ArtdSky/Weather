@@ -16,7 +16,7 @@ import org.koin.dsl.module
 val DependencyInjection = module {
 
     // Database
-    single{
+    single {
         WeatherDatabase.getDatabase(androidContext())
     }
     single<WeatherDao> {
@@ -47,5 +47,6 @@ val DependencyInjection = module {
 
     factory { InsertWeatherToDbUseCase(get()) }
 
-    viewModel { MainViewModel(get(), get(), get(), get(),get(), get(), get()) }
+
+    viewModel { MainViewModel(get(), get(), get(), get(), get(), get(), get()) }
 }
