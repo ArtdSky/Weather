@@ -7,8 +7,8 @@ class GetWeatherApiDataUseCase(
     private val repository: Repository
 ) {
 
-    suspend operator fun invoke(latlon: String): TemperatureModel {
-        return repository.getWeatherApiData(latlon = latlon)
+    suspend operator fun invoke(location: String): TemperatureModel {
+        return repository.getWeatherApiData(location = location)
     }
 
 }

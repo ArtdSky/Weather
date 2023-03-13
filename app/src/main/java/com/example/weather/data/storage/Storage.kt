@@ -8,7 +8,7 @@ import com.example.weather.data.storage.network.models.ResponseWeatherApi
 
 interface Storage {
 
-    suspend fun getWeatherApiData(latlon: String): ResponseWeatherApi
+    suspend fun getWeatherApiData(location: String): ResponseWeatherApi
 
     suspend fun getOpenWeathermapData(lat: String, lon: String): ResponseOpenWeathermap
 

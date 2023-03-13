@@ -16,8 +16,8 @@ class RepositoryImpl(
 ) : Repository {
 
 
-    override suspend fun getWeatherApiData(latlon: String): TemperatureModel {
-        return mapDataToDomain(storage.getWeatherApiData(latlon = latlon))
+    override suspend fun getWeatherApiData(location: String): TemperatureModel {
+        return mapDataToDomain(storage.getWeatherApiData(location = location))
     }
 
     override suspend fun getOpenWeathermapData(lat: String, lon: String): TemperatureModel {

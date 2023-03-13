@@ -41,7 +41,7 @@ val DependencyInjection = module {
 
     factory { GetCurrentLocation(get()) }
 
-    factory { GetAllWeatherFromDbUsecase(get()) }
+    factory { GetAllWeatherFromDbUseCase(get()) }
 
     factory { GetOneWeatherFromDbUseCase(get()) }
 

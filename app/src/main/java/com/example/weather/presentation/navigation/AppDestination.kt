@@ -1,4 +1,13 @@
 package com.example.weather.presentation.navigation
 
-class AppDestination {
+interface AppDestination {
+    val route: String
 }
+
+object MainScreen : AppDestination {
+    override val route = "main"
+
+}
+
+
+val AppTabRowScreens = listOf(MainScreen)

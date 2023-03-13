@@ -12,11 +12,11 @@ class ApiStorage(
     private val weatherRepository: WeatherRepository
 ) : Storage {
 
-    override suspend fun getWeatherApiData(latlon: String): ResponseWeatherApi {
+    override suspend fun getWeatherApiData(location: String): ResponseWeatherApi {
         ApiConfig.setBaseUrl("https://api.weatherapi.com/")
         return ApiConfig.retrofitApiService.getWeatherApiData(
             key = "a417b27b7c0746ceab5124157232501",
-            q = latlon
+            q = location
         )
     }
 
