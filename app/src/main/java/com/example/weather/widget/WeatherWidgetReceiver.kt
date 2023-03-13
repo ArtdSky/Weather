@@ -43,7 +43,7 @@ class WeatherWidgetReceiver(
                             )
                         )
                     )
-                )() // or whatever method is used to get the data
+                )()
             }
             Log.d("TAG-WIDGET", "getAllWeather ${result.toString()}")
         }

@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.weather.domain.usecase.*
 import com.example.weather.presentation.models.WeatherData
 import com.example.weather.presentation.state.ViewState
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -18,10 +21,13 @@ class MainViewModel(
     private val getCurrentLocation: GetCurrentLocation,
     private val getOneWeatherFromDbUseCase: GetOneWeatherFromDbUseCase,
     private val getAllWeatherFromDbUseCase: GetAllWeatherFromDbUseCase,
-    private val insertWeatherToDbUseCase: InsertWeatherToDbUseCase
+    private val insertWeatherToDbUseCase: InsertWeatherToDbUseCase,
+    private val updateWeatherInDbUseCase: UpdateWeatherInDbUseCase,
+    private val clearDbUseCase: ClearDbUseCase,
 ) : ViewModel() {
 
     init {
+        clearWeatherDb()
         loadCurrentLocation()
     }
 
@@ -44,10 +50,9 @@ class MainViewModel(
         }
     }
 
-    fun loadWeatherApiData() {
+    suspend fun loadWeatherApiData() : Deferred<Unit> {
         val location = "${viewState.value.latitude},${viewState.value.longitude}"
-//        val location = "${latitude},${longitude}"
-        viewModelScope.launch {
+        return viewModelScope.async(Dispatchers.IO) {
             val res = getWeatherApiDataUseCase(
                 location = location
             )
@@ -63,10 +68,10 @@ class MainViewModel(
         }
     }
 
-    fun loadOpenWeatherData(){
-        viewModelScope.launch {
-            val latitude = viewState.value.latitude ?: return@launch
-            val longitude = viewState.value.longitude ?: return@launch
+    suspend fun loadOpenWeatherData(): Deferred<Unit> {
+        return viewModelScope.async(Dispatchers.IO) {
+            val latitude = viewState.value.latitude ?: return@async
+            val longitude = viewState.value.longitude ?: return@async
 
             val res = getOpenWeathermapDataUseCase(
                 lat = latitude,
@@ -84,10 +89,10 @@ class MainViewModel(
         }
     }
 
-    fun loadVisualCrossingData(){
-        viewModelScope.launch {
-            val latitude = viewState.value.latitude ?: return@launch
-            val longitude = viewState.value.longitude ?: return@launch
+    suspend fun loadVisualCrossingData() : Deferred<Unit>{
+        return viewModelScope.async(Dispatchers.IO) {
+            val latitude = viewState.value.latitude ?: return@async
+            val longitude = viewState.value.longitude ?: return@async
 
             val res = getVisualCrossingData(
                 lat = latitude,
@@ -105,27 +110,48 @@ class MainViewModel(
         }
     }
 
-    fun insertWeatherToDb(){
-        viewModelScope.launch {
+    suspend fun insertWeatherToDb() : Deferred<Unit>{
+        return viewModelScope.async(Dispatchers.IO) {
             insertWeatherToDbUseCase(
                 WeatherData(
-                    id = viewState.value.id,
+                    id = 1,
                     currentTemperature = viewState.value.currentTemperature,
                     city = viewState.value.city,
                     lastTimeUpdate = viewState.value.lastTimeUpdate
                 )
             )
+        Log.d("TAG-VM", "insertWeatherToDb")
+        }
+
+    }
+
+    fun clearWeatherDb() {
+        viewModelScope.launch {
+            clearDbUseCase()
+            Log.d("TAG-VM", "clearWeatherDb")
         }
     }
 
-    fun getAllWeather(){
+    fun updateWeatherInDb() {
         viewModelScope.launch {
+            updateWeatherInDbUseCase(
+                data = WeatherData(
+                    id = 1,
+                    currentTemperature = viewState.value.currentTemperature,
+                    city = viewState.value.city,
+                    lastTimeUpdate = viewState.value.lastTimeUpdate
+                )
+            )
+            Log.d("TAG-VM", "updateWeatherInDb")
+        }
+    }
+
+    suspend fun getAllWeather(): Deferred<Unit>  {
+        return viewModelScope.async(Dispatchers.IO) {
             val result = getAllWeatherFromDbUseCase()
             Log.d("TAG-VM", "getAllWeather ${result.toString()}")
         }
     }
-
-
 
 
 }
