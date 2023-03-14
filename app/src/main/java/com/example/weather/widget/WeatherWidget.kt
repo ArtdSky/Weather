@@ -1,29 +1,71 @@
 package com.example.weather.widget
 
 import androidx.compose.runtime.Composable
-import androidx.glance.appwidget.GlanceAppWidget
-import androidx.glance.layout.Alignment
-import androidx.glance.layout.Column
+import androidx.compose.ui.unit.dp
+import androidx.glance.*
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
+import androidx.glance.layout.*
 import androidx.glance.text.Text
+import com.example.weather.R
+import com.example.weather.presentation.MainActivity
 
-class WeatherWidget: GlanceAppWidget() {
+@Composable
+fun WeatherWidget(weatherWidgetUiState: WeatherWidgetUiState) {
 
-    @Composable
-    override fun Content() {
-        Column(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Text(text = "Hello world!")
-
-        }
+    Column(
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .clickable(actionStartActivity(activity = MainActivity::class.java))
+            .padding(8.dp)
+    ) {
+        WeatherWidgetHeader()
+        WeatherWidgetBody(weatherWidgetUiState.currentTemperature)
+        WeatherWidgetFooterBody(
+            weatherWidgetUiState.city,
+            weatherWidgetUiState.lastTimeUpdate,
+        )
     }
 }
 
-//• Текст с информацией о текущей температуре
-//• Текст с информацией о городе (определяется по геопозиции, с помощью готового API)
-//• Текст с информацией, когда было последнее обновление данных (UTC Time)
-//• Иконка с погодой в зависимости от погоды, можно реализовать только 3-4 сценария
-//погоды, все необязательно.
-//• Информация в виджете должна полностью синхронизироваться с выбранными
-//настройками в самом приложении!
+@Composable
+fun WeatherWidgetHeader() {
+
+    Row(
+        horizontalAlignment = Alignment.Start,
+        modifier = GlanceModifier.fillMaxWidth()
+    ) {
+        Image(
+            provider = ImageProvider(R.drawable.flag_usa),
+            contentDescription = "test"
+        )
+    }
+}
+
+@Composable
+fun WeatherWidgetBody(temperature : String){
+    Row(
+        horizontalAlignment = Alignment.Start,
+        modifier = GlanceModifier.fillMaxWidth()
+    ) {
+        Text(
+            text = temperature,
+        )
+    }
+}
+
+@Composable
+fun WeatherWidgetFooterBody(city : String, lastTimeUpdate : String){
+    Row(
+        horizontalAlignment = Alignment.Start,
+        modifier = GlanceModifier.fillMaxWidth()
+    ) {
+        Text(
+            text = city,
+        )
+        Text(
+            text = lastTimeUpdate,
+        )
+    }
+
+}
