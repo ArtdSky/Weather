@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="temperature">температура</string>
+    <string name="city">город</string>
+    <string name="last_update">последнее обновление</string>
+    <string name="button_update">обновить</string>
+    <string name="data_source">источник данных</string>
 </resources>
