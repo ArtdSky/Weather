@@ -18,7 +18,10 @@ import androidx.navigation.NavHostController
 import com.example.weather.R
 import com.example.weather.presentation.screens.components.DropdownItem
 import com.example.weather.presentation.viewmodel.MainViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
@@ -59,7 +62,7 @@ fun MainScreen(
             }
         }
     )
-    var selectedItem by remember { mutableStateOf(items.first().source ) }
+    var selectedItem by remember { mutableStateOf(items.first().source) }
     var expanded by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -76,7 +79,7 @@ fun MainScreen(
 
             Box {
                 Text(
-                    text = stringResource(R.string.data_source) +": $selectedItem",
+                    text = stringResource(R.string.data_source) + ": $selectedItem",
                 )
                 IconButton(
                     onClick = { expanded = true },
@@ -88,7 +91,7 @@ fun MainScreen(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    items.forEachIndexed { index,item ->
+                    items.forEachIndexed { index, item ->
                         DropdownMenuItem(
                             onClick = {
                                 selectedItem = item.source
@@ -141,58 +144,74 @@ fun MainScreen(
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 state.lastTimeUpdate?.let {
+                    val timestamp = it.toLong()
+                    val instant = Instant.ofEpochSecond(timestamp)
+                    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.getDefault())
                     Text(
-                        text = it
+                        text = instant.atZone(ZoneId.systemDefault()).format(formatter)
                     )
                 }
             }
-            Button(
-                onClick = {
-                    selectedItemHandler?.let { it() }
-                }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             ) {
-                Text(text = stringResource(R.string.button_update))
-            }
+                Row {
+                    Checkbox(
+                        checked = checkedStateUsa.value,
+                        onCheckedChange = {
+                            config.setLocale(Locale("en"))
+                            resources.updateConfiguration(
+                                context.resources.configuration,
+                                resources.displayMetrics
+                            )
+                            checkedStateUsa.value = it
+                            checkedStateRu.value = false
+                        },
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.flag_usa),
+                        contentDescription = "USA icon",
+                        tint = Color.Unspecified
+                    )
+                }
 
-            Row {
-                Checkbox(
-                    checked = checkedStateUsa.value,
-                    onCheckedChange = {
-                        config.setLocale(Locale("en"))
-                        resources.updateConfiguration(
-                            context.resources.configuration,
-                            resources.displayMetrics
-                        )
-                        checkedStateUsa.value = it
-                        checkedStateRu.value = false
-                    },
-                )
-                Icon(
-                    painter = painterResource(R.drawable.flag_usa),
-                    contentDescription = "USA icon",
-                    tint = Color.Unspecified
-                )
-            }
-            Row {
-                Checkbox(
-                    checked = checkedStateRu.value,
-                    onCheckedChange = {
-                        config.setLocale(Locale("ru"))
-                        resources.updateConfiguration(
-                            context.resources.configuration,
-                            resources.displayMetrics
-                        )
-                        checkedStateRu.value = it
-                        checkedStateUsa.value = false
-                    },
-                )
-                Icon(
-                    painter = painterResource(R.drawable.flag_russia),
-                    contentDescription = "Ru icon",
-                    tint = Color.Unspecified
-                )
-            }
+                Button(
+                    onClick = {
+                        selectedItemHandler?.let { it() }
+                    }
+                ) {
+                    Text(text = stringResource(R.string.button_update))
+                }
 
+
+                Row {
+                    Checkbox(
+                        checked = checkedStateRu.value,
+                        onCheckedChange = {
+                            config.setLocale(Locale("ru"))
+                            resources.updateConfiguration(
+                                context.resources.configuration,
+                                resources.displayMetrics
+                            )
+                            checkedStateRu.value = it
+                            checkedStateUsa.value = false
+                        },
+                    )
+                    Icon(
+                        painter = painterResource(R.drawable.flag_russia),
+                        contentDescription = "Ru icon",
+                        tint = Color.Unspecified
+                    )
+                }
+
+            }
 
         }
     }
