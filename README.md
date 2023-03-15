@@ -16,10 +16,10 @@ Simple weather application with the ability to select the data source and langua
 
 ## UI layout
 
-| screenshots                                              | gif                                             |
-|----------------------------------------------------------|-------------------------------------------------|
-| <img src="assets/screenshots/weather_app" height="300">  | <img src="assets/gif/weather_app" height="300"> |
-| <img src="assets/screenshots/weather_app2" height="300"> |
+| screenshots                                                   | gif                                                 |
+|---------------------------------------------------------------|-----------------------------------------------------|
+| <img src="assets/screenshots/weather_app.png" height="300">   | <img src="assets/gif/weather_app.gif" height="300"> |
+| <img src="assets/screenshots/weather_app2.png" height="300">  |
 
 
 
