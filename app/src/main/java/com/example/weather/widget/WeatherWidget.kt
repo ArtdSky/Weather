@@ -1,6 +1,7 @@
 package com.example.weather.widget
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,15 +23,19 @@ import java.util.*
 @Composable
 fun WeatherWidget(weatherWidgetUiState: WeatherWidgetUiState) {
     var resourse = R.drawable.woman_ok
-    val tempDouble = weatherWidgetUiState.currentTemperature.toDouble()
-    tempDouble.let {
-        if (it < -15) {
+    Log.d("TAG-WIDGET-UI", weatherWidgetUiState.toString())
+
+    val tempDouble = weatherWidgetUiState.currentTemperature
+
+
+    tempDouble?.let {temperature ->
+        if (temperature < -15) {
             resourse = R.drawable.woman_extra_cold
         }
-        if (it > -15 && it < 0) {
+        if (temperature > -15 && temperature < 0) {
             resourse = R.drawable.woman_cold
         }
-        if (it > 15) {
+        if (temperature > 15) {
             resourse = R.drawable.woman_warm
         }
     }
@@ -42,24 +47,28 @@ fun WeatherWidget(weatherWidgetUiState: WeatherWidgetUiState) {
             .background(resourse)
             .padding(8.dp)
     ) {
-        WeatherWidgetHeader(weatherWidgetUiState.currentTemperature)
-        WeatherWidgetBody(
-            weatherWidgetUiState.city,
-        )
-        WeatherWidgetFooter(weatherWidgetUiState.lastTimeUpdate)
+        weatherWidgetUiState.currentTemperature?.let {
+            WeatherWidgetHeader(it)
+        }
+        weatherWidgetUiState.city?.let {
+            WeatherWidgetBody(it )
+        }
+        weatherWidgetUiState.lastTimeUpdate?.let{
+            WeatherWidgetFooter(it)
+        }
     }
 }
 
 
 @Composable
-fun WeatherWidgetHeader(temperature: String) {
+fun WeatherWidgetHeader(temperature: Double) {
     var resourse = R.drawable.woman_ok
     Row(
         horizontalAlignment = Alignment.Start,
         modifier = GlanceModifier.fillMaxWidth()
     ) {
         Text(
-            text = temperature,
+            text = temperature.toString(),
         )
     }
 }

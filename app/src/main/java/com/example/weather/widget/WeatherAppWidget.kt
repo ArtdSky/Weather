@@ -2,7 +2,6 @@ package com.example.weather.widget
 
 import androidx.compose.runtime.Composable
 import androidx.datastore.preferences.core.Preferences
-import androidx.glance.LocalContext
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.currentState
 import androidx.glance.state.GlanceStateDefinition
@@ -12,22 +11,22 @@ class WeatherAppWidget : GlanceAppWidget() {
 
     override val stateDefinition: GlanceStateDefinition<*> = PreferencesGlanceStateDefinition
 
+
     @Composable
     override fun Content() {
 
-        val context = LocalContext.current
         val prefs = currentState<Preferences>()
         val city = prefs[WeatherWidgetReceiver.city]
         val currentTemperature = prefs[WeatherWidgetReceiver.currentTemperature]
         val lastTimeUpdate = prefs[WeatherWidgetReceiver.lastTimeUpdate]
 
-        val bitcoinWidgetUiState = WeatherWidgetUiState(
+        val weatherWidgetUiState = WeatherWidgetUiState(
             city = city ?: "",
-            currentTemperature = currentTemperature ?: "",
-            lastTimeUpdate = lastTimeUpdate ?: ""
+            currentTemperature = currentTemperature ?: 0.0,
+            lastTimeUpdate = lastTimeUpdate ?: "0"
         )
 
 
-        WeatherWidget(bitcoinWidgetUiState)
+        WeatherWidget(weatherWidgetUiState)
     }
 }
