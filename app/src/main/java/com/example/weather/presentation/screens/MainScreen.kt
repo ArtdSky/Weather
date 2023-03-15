@@ -1,6 +1,7 @@
 package com.example.weather.presentation.screens
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -37,6 +38,10 @@ fun MainScreen(
     var selectedItemIndex by remember { mutableStateOf(0) }
     var selectedItemHandler by remember { mutableStateOf<(() -> Unit)?>(null) }
 
+    val shouldShowImage = remember { mutableStateOf(false) }
+    state.currentTemperature?.let {
+        shouldShowImage.value = true
+    }
     Log.d("TAG-SCREEN", state.toString())
 
     val items = listOf(
@@ -146,7 +151,8 @@ fun MainScreen(
                 state.lastTimeUpdate?.let {
                     val timestamp = it.toLong()
                     val instant = Instant.ofEpochSecond(timestamp)
-                    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").withLocale(Locale.getDefault())
+                    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+                        .withLocale(Locale.getDefault())
                     Text(
                         text = instant.atZone(ZoneId.systemDefault()).format(formatter)
                     )
@@ -212,9 +218,36 @@ fun MainScreen(
                 }
 
             }
-
+            if (shouldShowImage.value) {
+                TemperatureImage(state.currentTemperature)
+            }
         }
     }
 
+
+}
+
+@Composable
+fun TemperatureImage(temperature: String?) {
+    val tempDouble = temperature?.let { it.toDouble() }
+    var resourse = R.drawable.woman_ok
+    tempDouble?.let {
+        if (it < -15) {
+            resourse = R.drawable.woman_extra_cold
+        }
+        if (it > -15 && it < 0) {
+            resourse = R.drawable.woman_cold
+        }
+        if (it > 15) {
+            resourse = R.drawable.woman_warm
+        }
+    }
+
+    Box {
+        Image(
+            painter = painterResource(id = resourse),
+            contentDescription = "Temperature image"
+        )
+    }
 
 }
